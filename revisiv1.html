@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday — Final Version</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-soft:#FFB6C1;
+      --pink-deep:#FF69B4;
+      --pink-bg:#FFF0F5;
+      --white:#ffffff;
+      --fade-dur:600ms;
+    }
+    * { box-sizing:border-box; }
+    html,body {
+      height:100%;
+      margin:0;
+      font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+      background:linear-gradient(180deg,#fff0f7 0%, #fff 100%);
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    .wrap {
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Section Transition */
+    .section {
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:opacity var(--fade-dur) ease, transform var(--fade-dur) ease;
+      opacity:0;
+      transform:scale(0.98);
+      pointer-events:none;
+      padding:20px;
+    }
+    .section.active { opacity:1; transform:scale(1); pointer-events:auto; }
+
+    /* Card (Page 1) */
+    .card {
+      width:360px;
+      min-height:320px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,240,245,0.85));
+      border-radius:24px;
+      box-shadow:0 20px 40px rgba(255,105,180,0.08);
+      padding:32px;
+      text-align:center;
+      border:1px solid rgba(255,192,203,0.35);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .title {
+      font-family:'Great Vibes',cursive;
+      font-size:38px;
+      color:var(--pink-deep);
+      margin-bottom:8px;
+    }
+    .subtitle {
+      font-size:13px;
+      color:#8b4357;
+    }
+    
+    /* Tip */
+    .tip {
+      font-size:14px;
+      color:#72404a;
+      margin-top:16px;
+    }
+
+    /* Message Box */
+    .message-box {
+      max-width:620px;
+      width:100%;
+      text-align:center;
+      background:linear-gradient(180deg,#fff,#ffe4ef);
+      padding:36px 40px;
+      border-radius:20px;
+      box-shadow:0 20px 40px rgba(255,105,180,0.08);
+    }
+    .message-box h1 {
+      font-family:'Great Vibes',cursive;
+      font-size:44px;
+      color:var(--pink-deep);
+      margin:6px 0;
+    }
+    .typewriter {
+      font-size:16px;
+      line-height:1.7;
+      color:#6b2b3e;
+      min-height:120px;
+      margin:12px 0;
+    }
+
+    /* Gallery */
+    .gallery-box {
+      max-width:920px;
+      width:100%;
+      background:linear-gradient(180deg,#fff,#ffeef6);
+      padding:28px;
+      border-radius:18px;
+      box-shadow:0 20px 40px rgba(255,105,180,0.06);
+      text-align:center;
+    }
+    .gallery-box h2 {
+      font-family:'Great Vibes',cursive;
+      font-size:32px;
+      color:var(--pink-deep);
+      margin:6px 0 18px;
+    }
+    .photos-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    .photos-grid img {
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      border-radius:12px;
+      border:3px solid rgba(255,255,255,0.9);
+      box-shadow:0 14px 30px rgba(0,0,0,0.08);
+      cursor:pointer;
+      transition:transform .24s;
+    }
+    .photos-grid img:hover { transform:translateY(-6px); }
+
+    /* Modal */
+    .modal {
+      position:fixed;
+      inset:0;
+      background:rgba(10,10,10,0.6);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s;
+    }
+    .modal.open { opacity:1; pointer-events:auto; }
+    .modal img {
+      max-width:90%;
+      max-height:80%;
+      border-radius:12px;
+      box-shadow:0 30px 80px rgba(0,0,0,0.5);
+    }
+
+    /* Love falling elements */
+    .love {
+      position:fixed;
+      left:0;
+      top:0;
+      width:30px;
+      height:30px;
+      pointer-events:none;
+      opacity:0.95;
+      transform-origin:center;
+      z-index:20;
+      filter:drop-shadow(0 8px 16px rgba(255,105,180,0.08));
+    }
+    @keyframes fallLove {
+      0%{transform:translateY(-10vh) rotate(0) scale(.8);opacity:1;}
+      100%{transform:translateY(110vh) rotate(360deg) scale(1.1);opacity:0;}
+    }
+
+    /* Responsive */
+    @media (max-width:900px){
+      .photos-grid img{height:130px;}
+      .card{width:92%;padding:24px;}
+      .message-box{padding:24px 28px;}
+    }
+    @media (max-width:420px){
+      .photos-grid{grid-template-columns:repeat(2,1fr);}
+      .message-box{padding:20px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <section id="page1" class="section active" aria-label="Halaman 1">
+      <div class="card" role="main">
+        <div class="title">Happy Birthday <span style="font-size:18px;display:block;">My Love</span></div>
+        <div class="tip">Click to Open 📩</div>
+      </div>
+    </section>
+
+    <section id="page2" class="section" aria-label="Halaman 2">
+      <div class="message-box" role="region">
+        <h1>To My Sweetheart</h1>
+        <div class="typewriter" id="typewriter"></div>
+        <div class="tip">Tip: Click to open our Memories</div>
+      </div>
+    </section>
+
+    <section id="page3" class="section" aria-label="Halaman 3">
+      <div class="gallery-box">
+        <h2>Our Memories Together</h2>
+        <div class="photos-grid" id="photosGrid">
+          <img src="img\memor1.png" alt="Photo 1" data-large="img\memor1.png">
+          <img src="img\memor2.png" alt="Photo 2" data-large="img\memor2.png">
+          <img src="img\memor3.png" alt="Photo 3" data-large="img\memor3.png">
+          <img src="img\memor4.png" alt="Photo 4" data-large="img\memor4.png">
+          <img src="img\memor5.png" alt="Photo 5" data-large="img\memor5.png">
+          <img src="img\memor6.png" alt="Photo 6" data-large="img\memor6.png">
+        </div>
+      </div>
+    </section>
+
+    <div class="modal" id="modal">
+      <img id="modalImg" src="" alt="Foto besar">
+    </div>
+  </div>
+
+<script>
+  const page1 = document.getElementById('page1');
+  const page2 = document.getElementById('page2');
+  const page3 = document.getElementById('page3');
+  const typewriterEl = document.getElementById('typewriter');
+  const photosGrid = document.getElementById('photosGrid');
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modalImg');
+
+  const messageLines = [
+    "Happy Birthday, sayangku yg ke 20 tahun! 🎂",
+    "Semoga panjang umur, sehat selalu, segala urusan dipermudah, makin semangat kerjanya.",
+    "Makin sayang sama aku, cinta sama aku, jangan pernah pergi dari aku yaa...",
+    "Terima kasih telah menjadi pasangan ku selama ini dan menerima aku didalam hidup kamu. BOG LOVE TO U SAYANG💖"
+  ];
+
+  function showPage(target){
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    target.classList.add('active');
+  }
+
+  function typeMessage(lines, el, speed=28){
+    el.textContent = '';
+    const text = lines.join('\n\n');
+    let i = 0;
+    function step(){
+      if(i <= text.length){
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(step, speed);
+      }
+    }
+    step();
+  }
+
+  // page1 click → page2
+  page1.addEventListener('click', () => {
+    showPage(page2);
+    typeMessage(messageLines, typewriterEl, 28);
+  });
+
+  // page2 click → page3
+  page2.addEventListener('click', () => {
+    showPage(page3);
+    startLoveLoop();
+  });
+
+  // modal open & close
+  photosGrid.addEventListener('click', (e) => {
+    if(e.target.tagName === 'IMG'){
+      modalImg.src = e.target.dataset.large || e.target.src;
+      modal.classList.add('open');
+    }
+  });
+  modal.addEventListener('click', () => modal.classList.remove('open'));
+
+  // love fall effect
+  let loveInterval = null;
+  function createLove(){
+    const el = document.createElement('div');
+    el.className = 'love';
+    const size = 16 + Math.random() * 28;
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = (-5 - Math.random() * 10) + 'vh';
+    const color = `rgba(255,${160 + Math.floor(Math.random() * 60)},${170 + Math.floor(Math.random() * 60)},${0.9 - Math.random()*0.25})`;
+    el.innerHTML = `<svg viewBox="0 0 24 24" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7.5-4.9-9.5-8.1C-0.3 8.4 4.2 4 7.6 6.1 9.2 7.2 10 9 12 11.3c2-2.3 2.8-4.1 4.4-5.2 3.4-2.1 7.9 2.3 4.1 6.9C19.5 16.1 12 21 12 21z" fill="${color}"/></svg>`;
+    el.style.animation = `fallLove ${4 + Math.random()*4}s linear`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 9000);
+  }
+
+  function startLoveLoop(){
+    if(loveInterval) return;
+    for(let i = 0; i < 8; i++){ setTimeout(createLove, i*120); }
+    loveInterval = setInterval(() => { for(let i = 0; i < 4; i++){ setTimeout(createLove, i*160); } }, 1200);
+  }
+</script>
+</body>
+</html>
